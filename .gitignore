@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+venv/
+.venv/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Datasets (Too large for GitHub)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Models (Too large for GitHub)
+*.cbm
+*.h5
+*.pkl
+models/*
+!models/.gitkeep
+
+# OS specific
+.DS_Store
+Thumbs.db
