@@ -2,9 +2,9 @@ import os
 import joblib
 
 def check_models():
-    # 1. Use the 'GPS' pathing to find the models folder
+    # 1. Pathing logic to locate the models folder
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    models_dir = os.path.join(script_dir, '..', 'models')
+    models_dir = os.path.normpath(os.path.join(script_dir, '..', 'models'))
     
     if not os.path.exists(models_dir):
         print(f"❌ No models directory found at: {models_dir}")
@@ -17,16 +17,26 @@ def check_models():
         return
 
     print(f"✅ Found {len(files)} trained models in {models_dir}:")
-    print("-" * 50)
+    print("-" * 60)
+    print(f"{'CURRENCY':<10} | {'STATUS':<15} | {'SIGNAL FACTOR':<15} | {'FEATURES'}")
+    print("-" * 60)
     
     for f in files:
-        # Load the payload (which contains our model and the best damping factor)
-        payload = joblib.load(os.path.join(models_dir, f))
-        
-        # Display the results
-        currency = f.replace('lgbm_', '').replace('.joblib', '')
-        factor = payload['optimal_factor']
-        print(f"Currency: {currency:4} | Damping Factor: {factor:.2f}")
+        try:
+            # Load the payload
+            payload = joblib.load(os.path.join(models_dir, f))
+            
+            # Extract metadata
+            currency = f.replace('lgbm_', '').replace('.joblib', '')
+            factor = payload.get('optimal_factor', 'N/A')
+            feature_count = len(payload.get('features', []))
+            
+            # Validation Check
+            status = "READY ✅" if feature_count > 0 else "ERROR ❌"
+            
+            print(f"{currency:<10} | {status:<15} | {factor:<15} | {feature_count} features")
+        except Exception as e:
+            print(f"❌ Error loading {f}: {e}")
 
 if __name__ == "__main__":
     check_models()
