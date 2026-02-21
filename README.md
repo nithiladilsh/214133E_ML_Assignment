@@ -18,6 +18,12 @@ An end-to-end Machine Learning system designed to predict LKR exchange rates usi
 
 The project is organized into a sequential pipeline for clarity and reproducibility:
 
+## 📂 Dataset Description
+The model is powered by a multi-source dataset obtained via:
+1. **Exchange Rate Data:** Historical daily "Indicative Rates" sourced from the **Central Bank of Sri Lanka (CBSL)** Open Data portal (2010–2025).
+2. **Global Macro Indicators:** The **USD Index (DXY)** fetched via the `yfinance` API to provide global context to the LKR's performance.
+3. **Derived Features:** Engineered lags, moving averages, and crisis-period indicators developed during the preprocessing phase.
+
 ### **1. Jupyter Notebooks (Research & Development)**
 * **`1_data_collection.ipynb`**: Fetches global DXY data via `yfinance` and merges it with the local CBSL dataset.
 * **`2_preprocessing.ipynb`**: Handles feature engineering (Lags, Moving Averages, Volatility, and Crisis structural breaks).

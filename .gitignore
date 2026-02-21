@@ -6,23 +6,26 @@ __pycache__/
 .env
 venv/
 .venv/
+build/
+dist/
+*.egg-info/
 
 # Jupyter Notebooks
 .ipynb_checkpoints
 
-# Datasets (Too large for GitHub)
-data/raw/*
-data/processed/*
-!data/raw/.gitkeep
-!data/processed/.gitkeep
+# Datasets
+# We want the lecturer to see the data, so we DO NOT ignore these
+# !data/raw/*
+# !data/processed/*
 
-# Models (Too large for GitHub)
-*.cbm
-*.h5
-*.pkl
-models/*
-!models/.gitkeep
+# Models
+# We want the lecturer to see the trained .joblib files so the app works
+# !models/*
 
 # OS specific
 .DS_Store
 Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
