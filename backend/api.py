@@ -5,8 +5,8 @@ import os
 
 # 1. Path Setup: Ensure the backend can find the 'src' folder
 script_dir = os.path.dirname(os.path.abspath(__file__))
-# Moves up from backend/app/ to the Project Root
-root_dir = os.path.normpath(os.path.join(script_dir, '..', '..')) 
+
+root_dir = os.path.normpath(os.path.join(script_dir, '..')) 
 if root_dir not in sys.path:
     sys.path.append(root_dir)
 

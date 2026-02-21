@@ -7,7 +7,7 @@ from datetime import timedelta
 
 # --- CONFIGURATION ---
 st.set_page_config(page_title="LKR AI Forecaster", layout="wide", page_icon="📈")
-BACKEND_URL = "http://localhost:8000/predict"
+BACKEND_URL = os.getenv("BACKEND_API_URL", "http://localhost:8000/predict")
 
 @st.cache_data
 def load_data():
@@ -190,7 +190,7 @@ if st.button("Generate Forecast", type="primary"):
                 st.success(f"Generated {forecast_days}-day forecast.")
 
             else:
-                st.error(f"Backend API Error ({response.status_code})")
+                st.error(f"Backend API Error ({response.status_code}): {response.text}")
         
         except Exception as e:
             st.error(f"Connection Failed: {e}")
