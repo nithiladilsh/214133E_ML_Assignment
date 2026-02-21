@@ -6,7 +6,8 @@ import os
 from datetime import timedelta
 
 # --- CONFIGURATION ---
-st.set_page_config(page_title="LKR AI Forecaster", layout="wide", page_icon="📈")
+# BRANDING UPDATE: Added Sri Lankan Lion emoji and name
+st.set_page_config(page_title="සිංහ LKR AI Forecaster", layout="wide", page_icon="🦁")
 BACKEND_URL = os.getenv("BACKEND_API_URL", "http://localhost:8000/predict")
 
 @st.cache_data
@@ -32,8 +33,9 @@ def load_data():
 df = load_data()
 
 # --- UI HEADER ---
-st.title("🌍 LKR Exchange Rate AI Forecaster")
-st.markdown("### Stochastic Gradient Boosting (LightGBM) Recursive Analysis")
+# BRANDING UPDATE: Sri Lankan Lion Theme
+st.title("🦁 LKR-Forecaster: සිංහ AI")
+st.markdown("### Sri Lanka's Stochastic Gradient Boosting (LightGBM) Recursive Analysis")
 st.divider()
 
 # --- SIDEBAR: CONTROLS ---
@@ -47,6 +49,8 @@ if "last_curr" not in st.session_state:
 
 if st.session_state.last_curr != selected_curr:
     st.session_state.last_curr = selected_curr
+    # Reset live state on currency change
+    st.session_state.forecast_generated = False
     st.rerun()
 
 # --- NEW INPUT: MANUAL RATE OVERRIDE (For Bonus Marks) ---
@@ -88,9 +92,13 @@ latest_row_json = latest_row.copy()
 latest_row_json['Date'] = str(latest_date)
 latest_row_json['LKR_Rate'] = manual_rate 
 
-# --- MAIN INTERFACE: PREDICTION ---
-if st.button("Generate Forecast", type="primary", use_container_width=True):
-    with st.spinner(f"Simulating {forecast_days}-day stochastic trend..."):
+# --- LIVE UPDATE INTEGRATION ---
+if "forecast_generated" not in st.session_state:
+    st.session_state.forecast_generated = False
+
+# Encapsulating your exact logic into a function for reactivity
+def run_and_display_forecast():
+    with st.spinner(f"🦁 Lion AI is simulating {forecast_days}-day stochastic trend..."):
         try:
             # API CALL WITH SHOCK FACTOR
             response = requests.post(BACKEND_URL, json={
@@ -147,14 +155,14 @@ if st.button("Generate Forecast", type="primary", use_container_width=True):
 
                 fig.add_trace(go.Scatter(
                     x=curr_df['Date'], y=curr_df['LKR_Rate'],
-                    name="Historical Market Data", 
-                    line=dict(color="#1f77b4", width=2)
+                    name="Historical (CBSL Data)", # Local context
+                    line=dict(color="#FFBE29", width=2) # Lankan Gold
                 ))
 
                 fig.add_trace(go.Scatter(
                     x=plot_dates, y=[manual_rate] + forecast_prices,
-                    name="AI Forecasted Trend",
-                    line=dict(color="#d62728", width=4, dash='dash')
+                    name="Lion AI Forecast Trend",
+                    line=dict(color="#8D153A", width=4, dash='dash') # Lankan Maroon
                 ))
 
                 fig.update_layout(
@@ -200,8 +208,15 @@ if st.button("Generate Forecast", type="primary", use_container_width=True):
         except Exception as e:
             st.error(f"Connection Failed: {e}")
 
+# --- MAIN INTERFACE: PREDICTION TRIGGER ---
+if st.button("🚀 Run Lion AI Forecast", type="primary", use_container_width=True):
+    st.session_state.forecast_generated = True
+
+# LIVE UPDATE: Automatically runs if the button was previously clicked
+if st.session_state.forecast_generated:
+    run_and_display_forecast()
+
 # SIDEBAR FOOTER
-st.sidebar.markdown("---")
 st.sidebar.caption(
     "**Methodology:** Stochastic Recursive Multi-step forecasting using LightGBM. "
     "Dynamic feature updates include LKR lags and moving averages."
