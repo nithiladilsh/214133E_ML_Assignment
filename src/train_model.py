@@ -49,7 +49,7 @@ def train_and_save_models():
         print(f"Processing {curr}/LKR...")
         curr_df = df[df['Currency'] == curr].sort_values('Date').dropna().reset_index(drop=True)
         
-        # We train on the FULL dataset for the production model 
+        # Train on the FULL dataset for the production model 
         # to ensure the AI has the most recent 2024/2025 context.
         X = curr_df[features]
         y_change = curr_df['Target_Next_Day'] - curr_df['LKR_Rate']
@@ -59,7 +59,7 @@ def train_and_save_models():
         model.fit(X, y_change)
         
         # 4. Save Payload
-        # We set 'optimal_factor' to 1.0 to ensure the Recursive Loop 
+        # Set 'optimal_factor' to 1.0 to ensure the Recursive Loop 
         # uses the full AI predictive signal.
         model_payload = {
             'model': model,

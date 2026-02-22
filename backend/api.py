@@ -47,7 +47,7 @@ async def get_prediction(request: PredictionRequest):
             usd_shock=request.usd_shock
         )
         
-        # We explicitly cast to float() to ensure JSON compatibility 
+        # Explicitly cast to float() to ensure JSON compatibility 
         # (LightGBM/NumPy types sometimes confuse standard JSON encoders)
         return {
             "status": "success",
