@@ -22,9 +22,10 @@ def train_and_save_models():
     
     # Define the exact feature set used in your models and XAI
     features = [
-        'LKR_Lag_1', 'LKR_Lag_2', 'LKR_Lag_7', 'LKR_MA_7', 'LKR_MA_30', 
-        'Daily_Return', 'LKR_Volatility_7', 'USD_Index', 'USD_Index_Change', 
-        'Day_of_Week', 'Month_Sin', 'Month_Cos', 'Is_Crisis_Period'
+        'LKR_Lag_1', 'LKR_Lag_2', 'LKR_Lag_7', 
+        'LKR_MA_7', 'LKR_MA_30', 'LKR_Volatility_7',
+        'USD_Index_Change', 'Day_of_Week', 
+        'Month_Sin', 'Month_Cos', 'Is_Crisis_Period'
     ]
 
     # Hyperparameters tuned specifically to optimize MAE and mimic Efficient Market (Random Walk)
